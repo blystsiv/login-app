@@ -1,6 +1,6 @@
 {
   "name": "login-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "dev": "vite",
     "test": "vitest",
@@ -9,8 +9,18 @@
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "yarn lint:format && yarn lint:fix ",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "postinstall": "husky install",
+    "prepack": "pinst --disable",
+    "postpack": "pinst --enable"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "yarn lint",
+      "yarn test"
+    ]
+  },
+  "pre-commit": "lint-staged",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "react": "^17.0.2",
@@ -36,7 +46,10 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": "^8.0.0",
     "jsdom": "^22.1.0",
+    "lint-staged": "^13.2.3",
+    "pinst": "^3.0.0",
     "postcss": "^8.4.27",
     "pre-commit": "^1.2.2",
     "prettier": "^2.5.1",
@@ -45,6 +58,5 @@
     "vite": "^4.4.8",
     "vitest": "^0.34.1"
   },
-  "pre-commit": "lint",
   "license": "MIT"
 }
