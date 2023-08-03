@@ -1,20 +1,28 @@
 // NotFound.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../components';
 
 export const NotFound: React.FC = () => {
+  const navigate = useNavigate();
+  const loginedUser = localStorage.getItem('loginedUser');
+
   const handleGoBack = () => {
-    console.log('Go back clicked!');
+    if (loginedUser) {
+      navigate('/');
+    }
+
+    navigate('/login');
   };
 
   return (
     <>
       <div className="max-w-md">
-        <h1 className="text-5xl mb-6 text-center">404 - Not Found</h1>
-        <p>The page you are looking for does not exist.</p>
+        <h1 className="text-5xl text-center">404 - Not Found</h1>
+        <p className="my-6">The page you are looking for does not exist.</p>
         <Button onClick={handleGoBack} type="primary">
-          Go Back
+          {loginedUser ? 'Go to Home' : 'Go to Login'}
         </Button>
       </div>
     </>

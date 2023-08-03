@@ -17,7 +17,11 @@ export const Signup = () => {
       >
         {/* Header Section */}
         <div className="mb-6 text-center">
-          <img src="../src/assets/logo.png" alt="Your Logo" className="mx-auto w-40" />
+          <img
+            src="../../../src/assets/logo.png"
+            alt="Your Logo"
+            className="mx-auto w-40"
+          />
           <h1 className="text-4xl my-4 font-semibold">Welcome!</h1>
           <p className="text-lg">Create your account!</p>
         </div>
@@ -31,7 +35,9 @@ export const Signup = () => {
             className="border border-gray-300 p-2 w-full rounded-md"
           />
           {errors.username && (
-            <span className="text-red-500 text-sm">{errors.username.message}</span>
+            <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
+              {errors.username.message}
+            </span>
           )}
         </div>
 
@@ -44,7 +50,9 @@ export const Signup = () => {
             className="border border-gray-300 p-2 w-full rounded-md"
           />
           {errors.email && (
-            <span className="text-red-500 text-sm">{errors.email.message}</span>
+            <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
+              {errors.email.message}
+            </span>
           )}
         </div>
 
@@ -57,7 +65,9 @@ export const Signup = () => {
             className="border border-gray-300 p-2 w-full rounded-md"
           />
           {errors.password && (
-            <span className="text-red-500 text-sm">{errors.password.message}</span>
+            <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
+              {errors.password.message}
+            </span>
           )}
         </div>
 
