@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../components';
 
 export const Home: React.FC = () => {
   const [username] = useState('Ostap');
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    console.log('Logout clicked!');
+    if (localStorage.getItem('loginedUser')) {
+      localStorage.removeItem('loginedUser');
+      navigate('/login', { replace: true });
+    }
   };
 
   return (

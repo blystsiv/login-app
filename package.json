@@ -15,10 +15,8 @@
     "postpack": "pinst --enable"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-      "yarn lint",
-      "yarn test"
-    ]
+    "src/**/*.{js,jsx,ts,tsx}": "yarn lint",
+    "test": "yaar test"
   },
   "pre-commit": "lint-staged",
   "dependencies": {
