@@ -18,6 +18,10 @@
     "src/**/*.{js,jsx,ts,tsx}": "yarn lint",
     "test": "yaar test"
   },
+  "engines": {
+    "node": "18",
+    "npm": "9"
+  },
   "pre-commit": "lint-staged",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
