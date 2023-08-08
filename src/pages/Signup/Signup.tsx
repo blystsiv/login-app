@@ -72,7 +72,9 @@ export const Signup = () => {
         </div>
 
         {/* Sign-up button */}
-        <Button type="primary">Sign up</Button>
+        <Button variant="primary" type="submit">
+          Sign up
+        </Button>
 
         {/* "Or Sign up with" section */}
         <div className="mt-4 text-center">

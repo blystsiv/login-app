@@ -59,7 +59,7 @@ export const Login = () => {
         </div>
 
         {/* Sign-in button */}
-        <Button type="primary">Sign In</Button>
+        <Button variant="primary">Sign In</Button>
 
         {/* "Or Sign in with" section */}
         <div className="mt-4 text-center">
