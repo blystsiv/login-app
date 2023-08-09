@@ -3,7 +3,7 @@ import React from 'react';
 import { IButtonProps } from './Button.props';
 
 export const Button: React.FC<IButtonProps> = ({
-  type,
+  variant,
   disabled,
   children,
   ...props
@@ -18,8 +18,8 @@ export const Button: React.FC<IButtonProps> = ({
     close: 'bg-red-200 cursor-not-allowed opacity-50',
   };
 
-  const buttonStyle = buttonClass[type];
-  const disabledStyle = disabled ? disabledButtonClass[type] : '';
+  const buttonStyle = buttonClass[variant];
+  const disabledStyle = disabled ? disabledButtonClass[variant] : '';
 
   return (
     <button

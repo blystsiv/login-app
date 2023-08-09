@@ -5,7 +5,7 @@ import { Button } from './Button';
 
 describe('Button component', () => {
   it('renders primary button correctly', () => {
-    render(<Button type="primary">Click Me</Button>);
+    render(<Button variant="primary">Click Me</Button>);
     const buttonElement = screen.getByRole('button');
 
     // Test button text content
@@ -23,7 +23,7 @@ describe('Button component', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const onClickMock = () => {}; // A simple mock function
     render(
-      <Button type="close" disabled onClick={onClickMock}>
+      <Button variant="close" disabled onClick={onClickMock}>
         Close
       </Button>,
     );

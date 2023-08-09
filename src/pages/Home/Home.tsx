@@ -18,7 +18,7 @@ export const Home: React.FC = () => {
     <>
       <div className="max-w-2xl">
         <h1 className="text-5xl mb-6 text-center">Hi, {username}!</h1>
-        <Button onClick={handleLogout} type="close">
+        <Button onClick={handleLogout} variant="close">
           Logout
         </Button>
       </div>
