@@ -25,21 +25,30 @@ export const Signup = () => {
   } = useForm<User>();
 
   useEffect(() => {
-    const storedUsers = localStorage.getItem('registeredUsers');
+    try {
+      const storedUsers = localStorage.getItem('registeredUsers');
 
-    if (storedUsers) {
-      setRegisteredUsers(JSON.parse(storedUsers));
+      if (storedUsers) {
+        setRegisteredUsers(JSON.parse(storedUsers));
+      }
+    } catch (error) {
+      console.log('Error retrieving users from local storage:', error);
     }
   }, []);
 
   const handleFormSubmit = (data: User) => {
     try {
-      const isEmailAlreadyUsed = registeredUsers.some(
-        (user) => user.email === data.email,
-      );
-      const isUsernameAlreadyUsed = registeredUsers.some(
-        (user) => user.username === data.username,
-      );
+      let isEmailAlreadyUsed = false;
+      let isUsernameAlreadyUsed = false;
+
+      registeredUsers.forEach((user) => {
+        if (user.email === data.email) {
+          isEmailAlreadyUsed = true;
+        }
+        if (user.username === data.username) {
+          isUsernameAlreadyUsed = true;
+        }
+      });
 
       if (isUsernameAlreadyUsed || isEmailAlreadyUsed) {
         toast.error('You already have an account, Sign In here!', {
