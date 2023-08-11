@@ -1,52 +1,128 @@
+/* eslint-disable simple-import-sort/imports */
 /* eslint-disable react/no-unescaped-entities */
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { Button } from '../../components';
+import User from '../../models/User';
 
-export const Login = () => {
+interface LoginFormValues {
+  usernameOrEmail: string;
+  password: string;
+}
+
+export const Login: React.FC = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<LoginFormValues>();
 
+  const onFormSubmit = (data: LoginFormValues) => {
+    try {
+      const registeredUsersString = localStorage.getItem('registeredUsers');
+
+      if (registeredUsersString?.length) {
+        const registeredUsers: User[] = JSON.parse(registeredUsersString);
+
+        const userMatch = registeredUsers.find(
+          (user) =>
+            user.username === data.usernameOrEmail || user.email === data.usernameOrEmail,
+        );
+
+        if (!userMatch) {
+          toast.error('Username or email not found', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: 'light',
+            onClose: () => {
+              navigate('/signup');
+            },
+          });
+        } else if (userMatch.password !== data.password) {
+          toast.error('Incorrect password', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: 'light',
+          });
+        } else {
+          localStorage.setItem('loginedUser', JSON.stringify(userMatch));
+          navigate('/home');
+        }
+      } else {
+        toast.error('Account not found', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: 'light',
+          onClose: () => {
+            navigate('/signup');
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Error processing login:', error);
+    }
+  };
   return (
     <>
       <form
         className="bg-white border p-8 max-w-md shadow-md rounded-md"
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(onFormSubmit)}
       >
-        {/* Header Section */}
         <div className="text-center">
           <img src="../../../src/assets/logo.png" alt="Logo" className="mx-auto w-40" />
           <h1 className="text-4xl my-4 font-semibold">Welcome back!</h1>
           <p className="text-lg">Login to your account!</p>
         </div>
 
-        {/* Username input */}
         <div className="my-4">
           <input
             type="text"
-            placeholder="Username"
-            {...register('username', { required: 'Username is required' })}
+            placeholder="Username or email"
+            {...register('usernameOrEmail', {
+              required: 'Username or email is required',
+              minLength: {
+                value: 8,
+                message: 'Username or email must be at least 5 \n chars',
+              },
+            })}
             className={`border border-gray-300 p-2 w-full rounded-md ${
-              errors.username ? 'border-red-500' : 'border-gray-300'
+              errors.usernameOrEmail ? 'border-red-500' : 'border-gray-300'
             }`}
           />
-          {errors.username && (
+          {errors.usernameOrEmail && (
             <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
-              {errors.username.message}
+              {errors.usernameOrEmail.message}
             </span>
           )}
         </div>
 
-        {/* Password input */}
         <div className="my-4">
           <input
             type="password"
             placeholder="Password"
-            {...register('password', { required: 'Password is required' })}
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 chars',
+              },
+            })}
             className={`border border-gray-300 p-2 w-full rounded-md ${
               errors.password ? 'border-red-500' : 'border-gray-300'
             }`}
@@ -58,10 +134,10 @@ export const Login = () => {
           )}
         </div>
 
-        {/* Sign-in button */}
-        <Button variant="primary">Sign In</Button>
+        <Button variant="primary" type="submit">
+          Sign In
+        </Button>
 
-        {/* "Or Sign in with" section */}
         <div className="mt-4 text-center">
           <h2 className="text-lg mb-4">Or Sign up with</h2>
           <div className="flex justify-center space-x-4">
@@ -82,6 +158,7 @@ export const Login = () => {
           </Link>
         </p>
       </form>
+      <ToastContainer />
     </>
   );
 };

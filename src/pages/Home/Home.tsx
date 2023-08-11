@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../components';
 
 export const Home: React.FC = () => {
-  const [username] = useState('Ostap');
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      const loginedUserData = localStorage.getItem('loginedUser');
+      if (loginedUserData) {
+        const user = JSON.parse(loginedUserData);
+        setUsername(user.username);
+      }
+    } catch (error) {
+      console.log('Error retrieving logined user from local storage:', error);
+    }
+  }, []);
 
   const handleLogout = () => {
     if (localStorage.getItem('loginedUser')) {
