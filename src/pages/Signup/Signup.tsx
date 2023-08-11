@@ -5,12 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import { Button } from '../../components';
-
-interface User {
-  username: string;
-  email: string;
-  password: string;
-}
+import User from '../../models/User';
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -51,7 +46,7 @@ export const Signup = () => {
       });
 
       if (isUsernameAlreadyUsed || isEmailAlreadyUsed) {
-        toast.error('You already have an account, Sign In here!', {
+        toast.warn('You already have an account, Sign In here!', {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -124,23 +119,23 @@ export const Signup = () => {
             placeholder="Password"
             className="border border-gray-300 p-2 w-full rounded-md"
             {...register('password', {
-              required: 'Password is required',
+              required: 'Password required',
               minLength: {
                 value: 8,
-                message: 'Password must be at least 8 characters long',
+                message: 'Min 8 chars',
               },
               validate: (val: string) => {
                 if (watch('password') !== val) {
                   return 'Passwords do not match';
                 }
                 if (!/[A-Z]/.test(val)) {
-                  return 'Password must contain at least one uppercase letter';
+                  return 'Need an uppercase letter';
                 }
                 if (!/[a-z]/.test(val)) {
-                  return 'Password must contain at least one lowercase letter';
+                  return 'Need a lowercase letter';
                 }
                 if (!/[0-9]/.test(val)) {
-                  return 'Password must contain at least one digit';
+                  return 'Need a digit';
                 }
               },
             })}
