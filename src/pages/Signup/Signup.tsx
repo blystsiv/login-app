@@ -28,7 +28,7 @@ export const Signup = () => {
         setRegisteredUsers(JSON.parse(storedUsers));
       }
     } catch (error) {
-      console.log('Error retrieving users from local storage:', error);
+      console.error('Error retrieving users from local storage:', error);
     }
   }, []);
 
@@ -58,9 +58,9 @@ export const Signup = () => {
       const updatedUsers = [...registeredUsers, data];
 
       setRegisteredUsers(updatedUsers);
-      navigate('/login');
-
       localStorage.setItem('registeredUsers', JSON.stringify(updatedUsers));
+
+      navigate('/login');
     } catch (error) {
       console.error('Error processing user data:', error);
     }

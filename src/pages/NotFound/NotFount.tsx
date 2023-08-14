@@ -10,6 +10,7 @@ export const NotFound: React.FC = () => {
   useEffect(() => {
     try {
       const loginedUserData = localStorage.getItem('loginedUser');
+
       if (loginedUserData) {
         setUserLogined(true);
       }

@@ -26,7 +26,7 @@ export const Login: React.FC = () => {
     try {
       const registeredUsersString = localStorage.getItem('registeredUsers');
 
-      if (registeredUsersString?.length) {
+      if (registeredUsersString) {
         const registeredUsers: User[] = JSON.parse(registeredUsersString);
 
         const userMatch = registeredUsers.find(

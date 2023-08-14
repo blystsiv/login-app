@@ -19,16 +19,19 @@ export const Home: React.FC = () => {
         navigate('/login', { replace: true });
       }
     } catch (error) {
-      console.log('Error retrieving logined user from local storage:', error);
+      console.error('Error retrieving logined user from local storage:', error);
     }
   }, []);
 
   const handleLogout = () => {
-    if (localStorage.getItem('loginedUser')) {
-      localStorage.removeItem('loginedUser');
+    const loginedUser = localStorage.getItem('loginedUser');
 
-      navigate('/login', { replace: true });
+    if (!loginedUser) {
+      return;
     }
+
+    localStorage.removeItem('loginedUser');
+    navigate('/login', { replace: true });
   };
 
   return (
