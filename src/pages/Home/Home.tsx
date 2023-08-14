@@ -4,15 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components';
 
 export const Home: React.FC = () => {
-  const [username, setUsername] = useState('');
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     try {
       const loginedUserData = localStorage.getItem('loginedUser');
+
       if (loginedUserData) {
         const user = JSON.parse(loginedUserData);
+
         setUsername(user.username);
+      } else {
+        navigate('/login', { replace: true });
       }
     } catch (error) {
       console.log('Error retrieving logined user from local storage:', error);
@@ -22,6 +26,7 @@ export const Home: React.FC = () => {
   const handleLogout = () => {
     if (localStorage.getItem('loginedUser')) {
       localStorage.removeItem('loginedUser');
+
       navigate('/login', { replace: true });
     }
   };

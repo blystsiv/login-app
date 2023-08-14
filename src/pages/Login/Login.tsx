@@ -3,10 +3,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import { Button } from '../../components';
 import User from '../../models/User';
+import { showToastError } from '../../utils/toastHelpers';
 
 interface LoginFormValues {
   usernameOrEmail: string;
@@ -34,41 +35,20 @@ export const Login: React.FC = () => {
         );
 
         if (!userMatch) {
-          toast.error('Username or email not found', {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: 'light',
+          showToastError('Username or email not found', {
             onClose: () => {
               navigate('/signup');
             },
           });
         } else if (userMatch.password !== data.password) {
-          toast.error('Incorrect password', {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: 'light',
-          });
+          showToastError('Incorrect password');
         } else {
           localStorage.setItem('loginedUser', JSON.stringify(userMatch));
+
           navigate('/home');
         }
       } else {
-        toast.error('Account not found', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: 'light',
+        showToastError('Account not found', {
           onClose: () => {
             navigate('/signup');
           },
@@ -78,6 +58,7 @@ export const Login: React.FC = () => {
       console.error('Error processing login:', error);
     }
   };
+
   return (
     <>
       <form
@@ -86,7 +67,7 @@ export const Login: React.FC = () => {
       >
         <div className="text-center">
           <img src="../../../src/assets/logo.png" alt="Logo" className="mx-auto w-40" />
-          <h1 className="text-4xl my-4 font-semibold">Welcome back!</h1>
+          <h1 className="text-4xl my-4 font-semibold">Welcome!</h1>
           <p className="text-lg">Login to your account!</p>
         </div>
 

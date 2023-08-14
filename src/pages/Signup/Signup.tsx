@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Button } from '../../components';
 import User from '../../models/User';
+import { showToastWarning } from '../../utils/toastHelpers';
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -46,14 +47,7 @@ export const Signup = () => {
       });
 
       if (isUsernameAlreadyUsed || isEmailAlreadyUsed) {
-        toast.warn('You already have an account, Sign In here!', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: 'light',
+        showToastWarning('You already have an account, Sign In here!', {
           onClose: () => {
             navigate('/login');
           },
@@ -62,7 +56,10 @@ export const Signup = () => {
       }
 
       const updatedUsers = [...registeredUsers, data];
+
       setRegisteredUsers(updatedUsers);
+      navigate('/login');
+
       localStorage.setItem('registeredUsers', JSON.stringify(updatedUsers));
     } catch (error) {
       console.error('Error processing user data:', error);
