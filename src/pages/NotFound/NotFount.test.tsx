@@ -11,11 +11,11 @@ describe('NotFound', () => {
   test('should have text 404', () => {
     customRender(<NotFound />);
 
-    expect(screen.getByTestId('not-found')).toBeInTheDocument();
+    expect(screen.getByText('404 - Not Found')).toBeInTheDocument();
     expect(
       screen.getByText('The page you are looking for does not exist.'),
     ).toBeInTheDocument();
-    expect(screen.getByText('404 - Not Found')).toBeInTheDocument();
+    expect(screen.getByTestId('not-found')).toBeInTheDocument();
   });
 
   test('should have text "Go to Home" if there is a logged in user', () => {
