@@ -17,7 +17,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": "yarn lint",
-    "test": "yaar test"
+    "test": "yarn test"
   },
   "engines": {
     "node": "18",

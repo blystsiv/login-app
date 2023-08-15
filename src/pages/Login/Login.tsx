@@ -64,11 +64,16 @@ export const Login: React.FC = () => {
       <form
         className="bg-white border p-8 max-w-md shadow-md rounded-md"
         onSubmit={handleSubmit(onFormSubmit)}
+        data-test="login-form"
       >
         <div className="text-center">
           <img src="../../../src/assets/logo.png" alt="Logo" className="mx-auto w-40" />
-          <h1 className="text-4xl my-4 font-semibold">Welcome!</h1>
-          <p className="text-lg">Login to your account!</p>
+          <h1 className="text-4xl my-4 font-semibold" data-test="welcome-heading">
+            Welcome!
+          </h1>
+          <p className="text-lg" data-test="login-text">
+            Login to your account!
+          </p>
         </div>
 
         <div className="my-4">
@@ -85,6 +90,7 @@ export const Login: React.FC = () => {
             className={`border border-gray-300 p-2 w-full rounded-md ${
               errors.usernameOrEmail ? 'border-red-500' : 'border-gray-300'
             }`}
+            data-test="username-input"
           />
           {errors.usernameOrEmail && (
             <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
@@ -107,9 +113,10 @@ export const Login: React.FC = () => {
             className={`border border-gray-300 p-2 w-full rounded-md ${
               errors.password ? 'border-red-500' : 'border-gray-300'
             }`}
+            data-test="password-input"
           />
           {errors.password && (
-            <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
+            <span className="text-red-500 text-sm mt-1 flex text-left ml-2" data-test="">
               {errors.password.message}
             </span>
           )}
@@ -120,7 +127,9 @@ export const Login: React.FC = () => {
         </Button>
 
         <div className="mt-4 text-center">
-          <h2 className="text-lg mb-4">Or Sign up with</h2>
+          <h2 className="text-lg mb-4" data-test="">
+            Or Sign up with
+          </h2>
           <div className="flex justify-center space-x-4">
             <button className="bg-red-500 text-white px-4 py-2 rounded-md">Google</button>
             <button className="bg-blue-600 text-white px-4 py-2 rounded-md">
@@ -132,14 +141,18 @@ export const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="mt-4 text-sm text-center ">
+        <p className="mt-4 text-sm text-center " data-test="signup-link">
           Don't have an account?{' '}
-          <Link to="/signup" className="text-blue-600 underline">
+          <Link
+            to="/signup"
+            className="text-blue-600 underline"
+            data-test="signup-link-text"
+          >
             Sign up here
           </Link>
         </p>
       </form>
-      <ToastContainer />
+      <ToastContainer data-test="toast-container" />
     </>
   );
 };
