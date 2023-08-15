@@ -1,7 +1,8 @@
-export type ButtonType = 'primary' | 'close';
+export type ButtonVariant = 'primary' | 'close';
 
 export interface IButtonProps {
-  type: ButtonType;
+  variant: ButtonVariant;
+  type?: 'submit';
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;

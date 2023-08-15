@@ -1,21 +1,86 @@
+/* eslint-disable simple-import-sort/imports */
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
+import { ToastContainer, toast } from 'react-toastify';
 import { Button } from '../../components';
 
+interface User {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export const Signup = () => {
+  const navigate = useNavigate();
+
+  const [registeredUsers, setRegisteredUsers] = useState<User[]>([]);
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm();
+  } = useForm<User>();
+
+  useEffect(() => {
+    try {
+      const storedUsers = localStorage.getItem('registeredUsers');
+
+      if (storedUsers) {
+        setRegisteredUsers(JSON.parse(storedUsers));
+        navigate('/', { replace: true });
+      }
+    } catch (error) {
+      console.log('Error retrieving users from local storage:', error);
+    }
+  }, []);
+
+  const handleFormSubmit = (data: User) => {
+    try {
+      let isEmailAlreadyUsed = false;
+      let isUsernameAlreadyUsed = false;
+
+      registeredUsers.forEach((user) => {
+        if (user.email === data.email) {
+          isEmailAlreadyUsed = true;
+        }
+        if (user.username === data.username) {
+          isUsernameAlreadyUsed = true;
+        }
+      });
+
+      if (isUsernameAlreadyUsed || isEmailAlreadyUsed) {
+        toast.error('You already have an account, Sign In here!', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: 'light',
+          onClose: () => {
+            navigate('/login');
+          },
+        });
+        return;
+      }
+
+      const updatedUsers = [...registeredUsers, data];
+      setRegisteredUsers(updatedUsers);
+      localStorage.setItem('registeredUsers', JSON.stringify(updatedUsers));
+    } catch (error) {
+      console.error('Error processing user data:', error);
+    }
+  };
 
   return (
     <>
       <form
         className="bg-white border p-8 max-w-md shadow-md rounded-md"
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(handleFormSubmit)}
       >
-        {/* Header Section */}
         <div className="mb-6 text-center">
           <img
             src="../../../src/assets/logo.png"
@@ -26,7 +91,6 @@ export const Signup = () => {
           <p className="text-lg">Create your account!</p>
         </div>
 
-        {/* Username input */}
         <div className="mb-4">
           <input
             type="text"
@@ -41,10 +105,9 @@ export const Signup = () => {
           )}
         </div>
 
-        {/* Email input */}
         <div className="mb-4">
           <input
-            type="email" // Changed to type="email" for proper email validation
+            type="email"
             placeholder="Email"
             {...register('email', { required: 'Email is required' })}
             className="border border-gray-300 p-2 w-full rounded-md"
@@ -56,13 +119,32 @@ export const Signup = () => {
           )}
         </div>
 
-        {/* Password input */}
         <div className="mb-4">
           <input
             type="password"
             placeholder="Password"
-            {...register('password', { required: 'Password is required' })}
             className="border border-gray-300 p-2 w-full rounded-md"
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 8 characters long',
+              },
+              validate: (val: string) => {
+                if (watch('password') !== val) {
+                  return 'Passwords do not match';
+                }
+                if (!/[A-Z]/.test(val)) {
+                  return 'Password must contain at least one uppercase letter';
+                }
+                if (!/[a-z]/.test(val)) {
+                  return 'Password must contain at least one lowercase letter';
+                }
+                if (!/[0-9]/.test(val)) {
+                  return 'Password must contain at least one digit';
+                }
+              },
+            })}
           />
           {errors.password && (
             <span className="text-red-500 text-sm mt-1 flex text-left ml-2">
@@ -71,10 +153,10 @@ export const Signup = () => {
           )}
         </div>
 
-        {/* Sign-up button */}
-        <Button type="primary">Sign up</Button>
+        <Button variant="primary" type="submit">
+          Sign up
+        </Button>
 
-        {/* "Or Sign up with" section */}
         <div className="mt-4 text-center">
           <h2 className="text-lg mb-4">Or Sign up with</h2>
           <div className="flex justify-center space-x-4">
@@ -88,6 +170,7 @@ export const Signup = () => {
           </div>
         </div>
       </form>
+      <ToastContainer />
     </>
   );
 };

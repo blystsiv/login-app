@@ -17,14 +17,16 @@ export const NotFound: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="max-w-md">
-        <h1 className="text-5xl text-center">404 - Not Found</h1>
-        <p className="my-6">The page you are looking for does not exist.</p>
-        <Button onClick={handleGoBack} type="primary">
-          {loginedUser ? 'Go to Home' : 'Go to Login'}
-        </Button>
-      </div>
-    </>
+    <div className="max-w-md">
+      <h1 className="text-5xl text-center" data-test="not-found">
+        404 - Not Found
+      </h1>
+      <p className="my-6" data-test="not-found-text">
+        The page you are looking for does not exist.
+      </p>
+      <Button onClick={handleGoBack} variant="primary" data-test="not-found-button">
+        {loginedUser ? 'Go to Home' : 'Go to Login'}
+      </Button>
+    </div>
   );
 };
