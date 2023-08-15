@@ -1,6 +1,6 @@
 import { queries, render } from '@testing-library/react';
 import { ReactElement } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 export const AllTheProviders = ({ children }: { children: ReactElement }) => {
   return <BrowserRouter>{children}</BrowserRouter>;
