@@ -3,14 +3,10 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { Button } from '../../components';
-
-interface User {
-  username: string;
-  email: string;
-  password: string;
-}
+import User from '../../models/User';
+import { showToastWarning } from '../../utils/toastHelpers';
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -33,7 +29,7 @@ export const Signup = () => {
         navigate('/', { replace: true });
       }
     } catch (error) {
-      console.log('Error retrieving users from local storage:', error);
+      console.error('Error retrieving users from local storage:', error);
     }
   }, []);
 
@@ -52,14 +48,7 @@ export const Signup = () => {
       });
 
       if (isUsernameAlreadyUsed || isEmailAlreadyUsed) {
-        toast.error('You already have an account, Sign In here!', {
-          position: 'top-right',
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: 'light',
+        showToastWarning('You already have an account, Sign In here!', {
           onClose: () => {
             navigate('/login');
           },
@@ -68,8 +57,11 @@ export const Signup = () => {
       }
 
       const updatedUsers = [...registeredUsers, data];
+
       setRegisteredUsers(updatedUsers);
       localStorage.setItem('registeredUsers', JSON.stringify(updatedUsers));
+
+      navigate('/login');
     } catch (error) {
       console.error('Error processing user data:', error);
     }
@@ -125,23 +117,23 @@ export const Signup = () => {
             placeholder="Password"
             className="border border-gray-300 p-2 w-full rounded-md"
             {...register('password', {
-              required: 'Password is required',
+              required: 'Password required',
               minLength: {
                 value: 8,
-                message: 'Password must be at least 8 characters long',
+                message: 'Min 8 chars',
               },
               validate: (val: string) => {
                 if (watch('password') !== val) {
                   return 'Passwords do not match';
                 }
                 if (!/[A-Z]/.test(val)) {
-                  return 'Password must contain at least one uppercase letter';
+                  return 'Need an uppercase letter';
                 }
                 if (!/[a-z]/.test(val)) {
-                  return 'Password must contain at least one lowercase letter';
+                  return 'Need a lowercase letter';
                 }
                 if (!/[0-9]/.test(val)) {
-                  return 'Password must contain at least one digit';
+                  return 'Need a digit';
                 }
               },
             })}

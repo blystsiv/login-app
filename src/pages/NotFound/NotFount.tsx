@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../components';
 
 export const NotFound: React.FC = () => {
   const navigate = useNavigate();
-  const loginedUser = localStorage.getItem('loginedUser');
+  const [userLogined, setUserLogined] = useState(false);
+
+  useEffect(() => {
+    try {
+      const loginedUserData = localStorage.getItem('loginedUser');
+
+      if (loginedUserData) {
+        setUserLogined(true);
+      }
+    } catch (error) {
+      console.log('Error retrieving logined user from local storage:', error);
+    }
+  }, []);
 
   const handleGoBack = () => {
-    if (loginedUser) {
-      navigate('/');
+    if (userLogined) {
+      navigate('/home');
+    } else {
+      navigate('/login');
     }
-
-    navigate('/login');
   };
 
   return (
@@ -24,7 +36,7 @@ export const NotFound: React.FC = () => {
         The page you are looking for does not exist.
       </p>
       <Button onClick={handleGoBack} variant="primary" data-test="not-found-button">
-        {loginedUser ? 'Go to Home' : 'Go to Login'}
+        {userLogined ? 'Go to Home' : 'Go to Login'}
       </Button>
     </div>
   );
