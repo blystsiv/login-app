@@ -1,18 +1,16 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import './index.css';
 
-import { Layout } from './components';
-import { Home, Login, NotFound, Signup } from './pages';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-export const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-      <Route path="/login" element={<Navigate to="/" />} />
-    </Routes>
-  );
-};
+import App from './index';
+
+ReactDOM.render(
+  <>
+    <BrowserRouter>
+      <App homepage="/" />
+    </BrowserRouter>
+  </>,
+  document.getElementById('root'),
+);
