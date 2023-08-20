@@ -6,7 +6,12 @@
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "types": ["vite/client", "node", "@testing-library/react", "@testing-library/jest-dom"],
+    "types": [
+      "vite/client",
+      "node",
+      "@testing-library/react",
+      "@testing-library/jest-dom"
+    ],
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
