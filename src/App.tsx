@@ -1,16 +1,13 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom/client';
 
 import App from './index';
 
-ReactDOM.render(
+ReactDOM.createRoot(
   <>
-    <BrowserRouter>
-      <App homepage="/" />
-    </BrowserRouter>
+    <App homepage="/" />
   </>,
   document.getElementById('root'),
 );
