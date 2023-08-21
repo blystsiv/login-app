@@ -26,6 +26,7 @@ export const Signup = () => {
 
       if (storedUsers) {
         setRegisteredUsers(JSON.parse(storedUsers));
+        navigate('/', { replace: true });
       }
     } catch (error) {
       console.error('Error retrieving users from local storage:', error);

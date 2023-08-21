@@ -26,6 +26,7 @@ export const Button: React.FC<IButtonProps> = ({
       className={`${buttonStyle} ${disabledStyle}`}
       disabled={disabled}
       onClick={disabled ? undefined : props.onClick}
+      {...props}
     >
       {children}
     </button>

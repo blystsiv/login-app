@@ -10,6 +10,9 @@ export default mergeConfig(
       globals: true,
       environment: 'jsdom',
       setupFiles: './setup.ts',
+      coverage: {
+        provider: 'istanbul', // or 'v8'
+      },
     },
   }),
 );

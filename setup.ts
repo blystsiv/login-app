@@ -1,7 +1,15 @@
+import '@testing-library/jest-dom';
+
 import matchers from '@testing-library/jest-dom/matchers';
-import { cleanup } from '@testing-library/react';
+import { cleanup, configure } from '@testing-library/react';
+import chai from 'chai';
+import spies from 'chai-spies';
 import { afterEach, expect } from 'vitest';
 
+chai.use(spies);
+expect.extend(matchers);
+
+configure({ testIdAttribute: 'data-test' });
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers);
 
